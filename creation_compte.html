@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer un compte</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url(img/2023.jpg);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            background-size: cover;
+           
+        }
+        .container {
+            background: rgba(155, 152, 152, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 300px;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .back-arrow {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #1e3a8a;
+        }
+        .logo {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #1e3a8a;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input[type="password"] {
+            margin-bottom: 20px;
+        }
+        button {
+            width: 100%;
+            padding:0px;
+            background-color: #1e3a8a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #163172;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="back-arrow">←</span>
+        <img src="img/image.png" alt="Sigma Logo" class="logo">
+        <h2>Créer un compte</h2>
+        <input type="email" placeholder="Adresse-e-mail">
+        <input type="password" placeholder="Mot de passe">
+        <button><h3>Créer mon compte</h3></button>
+    </div>
+</body>
+</html>

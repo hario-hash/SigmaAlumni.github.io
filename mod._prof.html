@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier Profil</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-image: url('/img/profile_pic.jpeg'); /* Image par défaut comme fond */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .profile-card {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 300px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 20px;
+            border: 4px solid #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .no-image {
+            display: none;
+            width: 100px;
+            height: 100px;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            line-height: 100px;
+            color: #888;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .form-group label {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        .form-group label i {
+            margin-right: 10px;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .form-group .show {
+            font-size: 12px;
+            color: #888;
+            cursor: pointer;
+        }
+        .form-group a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .submit-btn,
+        .delete-photo-btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .submit-btn {
+            background-color: #1a3c5e;
+            color: #fff;
+        }
+        .submit-btn:hover {
+            background-color: #152f4a;
+        }
+        .delete-photo-btn {
+            background-color: #dc3545;
+            color: #fff;
+            margin-top: 10px;
+        }
+        .delete-photo-btn:hover {
+            background-color: #c82333;
+        }
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #000;
+        }
+        @media (max-width: 480px) {
+            .profile-card {
+                padding: 15px;
+            }
+            .profile-pic,
+            .no-image {
+                width: 80px;
+                height: 80px;
+                line-height: 80px;
+            }
+            .form-group label {
+                font-size: 14px;
+            }
+            .form-group input,
+            .form-group select {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="settings.html"><span class="back-arrow">←</span></a>
+    <div class="container">
+    <div class="profile-card">
+        <div class="profile-pic" id="profilePic">
+            <img src="/img/profile_pic.jpeg" alt="Profile Picture" id="profileImage">
+        </div>
+        <div class="no-image" id="noImage">Aucune image</div>
+        <div class="form-group">
+            <label><i class="fas fa-user"></i> Nom complet</label>
+            <input type="text" placeholder="Nom complet" id="fullName">
+        </div>
+        <div class="form-group">
+            <label><i class="fas fa-envelope"></i> Adresse e-mail <span class="show">Afficher</span></label>
+            <input type="email" placeholder="Adresse e-mail" id="email">
+        </div>
+        <div class="form-group">
+            <label><i class="fas fa-lock"></i> Mot de passe</label>
+            <input type="password" placeholder="Mot de passe" id="password">
+        </div>
+        <div class="form-group">
+            <label><i class="fas fa-camera"></i> Changer photo de profil</label>
+            <input type="file" id="imageUpload" accept="image/*">
+        </div>
+        <div class="form-group">
+            <label><i class="fas fa-calendar"></i> Date de naissance</label>
+            <input type="date" placeholder="Date de naissance" id="birthDate">
+        </div>
+        <div class="form-group">
+            <label><i class="fas fa-graduation-cap"></i> Année du bac</label>
+            <input type="text" placeholder="Année du bac" id="bacYear">
+        </div>
+        <button class="submit-btn" onclick="saveChanges()">Enregistrer les modifications</button>
+        <button class="delete-photo-btn" onclick="deleteProfilePhoto()">Supprimer ma photo de profil</button>
+    </div>
+    <script>
+        const profilePic = document.getElementById('profilePic');
+        const noImage = document.getElementById('noImage');
+        const profileImage = document.getElementById('profileImage');
+        const imageUpload = document.getElementById('imageUpload');
+        let profileData = {
+            fullName: '',
+            email: '',
+            password: '',
+            birthDate: '',
+            bacYear: '',
+            hasImage: false // Par défaut, pas d'image personnalisée
+        };
+
+        // Charger l'image par défaut au démarrage si aucune image n'est présente
+        window.onload = function() {
+            if (!profileData.hasImage) {
+                profileImage.src = '/img/profile_pic.jpeg'; // Image par défaut
+                document.body.style.backgroundImage = `url('/img/profile_pic.jpeg')`;
+                profilePic.style.display = 'block';
+                noImage.style.display = 'none';
+            }
+        };
+
+        imageUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    profileImage.src = event.target.result;
+                    document.body.style.backgroundImage = `url(${event.target.result})`;
+                    profilePic.style.display = 'block';
+                    noImage.style.display = 'none';
+                    profileData.hasImage = true;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function saveChanges() {
+            profileData.fullName = document.getElementById('fullName').value;
+            profileData.email = document.getElementById('email').value;
+            profileData.password = document.getElementById('password').value;
+            profileData.birthDate = document.getElementById('birthDate').value;
+            profileData.bacYear = document.getElementById('bacYear').value;
+            alert('Modifications enregistrées : ' + JSON.stringify(profileData));
+        }
+
+        function deleteProfilePhoto() {
+            if (confirm('Êtes-vous sûr de vouloir supprimer votre photo de profil ?')) {
+                profileImage.src = '/img/profile_pic.jpeg'; // Remettre l'image par défaut
+                document.body.style.backgroundImage = `url('/img/profile_pic.jpeg')`;
+                profilePic.style.display = 'block';
+                noImage.style.display = 'none';
+                imageUpload.value = '';
+                profileData.hasImage = false;
+                alert('Photo de profil supprimée avec succès.');
+            }
+        }
+    </script>
+</body>
+</html>

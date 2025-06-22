@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yearbook</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            background: url('C:/Users/ajavo/OneDrive/Desktop/SigmaAlumni/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            overflow-x: hidden;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 0;
+            width: 100%;
+            min-height: 100vh;
+            box-shadow: none;
+            position: relative;
+            display: block;
+        }
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 50px;
+            padding-top: 20px;
+            position: relative;
+            height: 80px;
+        }
+        .header img {
+            width: 80px;
+            margin-right: 20px;
+        }
+        .header h1 {
+            color: #FFD700; /* Gold color */
+            margin: 0;
+            font-size: 20px;
+            text-align: center;
+            flex-grow: 1;
+        }
+        .header .settings {
+            font-size: 18px;
+            cursor: pointer;
+            margin-left: 20px;
+        }
+        .filters {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 0 10px;
+            margin-top: 20px;
+        }
+        .filters select, .filters input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 30%;
+            font-size: 14px;
+        }
+        .filters input {
+            width: 60%;
+        }
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            padding: 0 10px 20px;
+            margin-top: 20px;
+        }
+        .profile-card {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            border: 1px solid #ddd;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .profile-card:hover {
+            transform: scale(1.05);
+        }
+        .profile-card img {
+            width: 60px;
+            height: 60px;
+            background: #a3bffa;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .profile-card .info {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .profile-card p {
+            margin: 3px 0;
+            color: #333;
+            font-size: 14px;
+        }
+        .profile-card .email {
+            font-size: 12px;
+            color: #666;
+        }
+        .hidden {
+            display: none;
+        }
+        .not-found {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+            color: #666;
+        }
+        .not-found::before {
+            content: "🔍"; /* Unicode for magnifying glass */
+            margin-right: 10px;
+            font-size: 30px;
+        }
+
+        /* Full-Page Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        .modal-content {
+            background: none;
+            padding: 40px;
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            margin: 20px auto;
+        }
+        .modal-content img {
+            width: 180px;
+            height: 180px;
+            background: #a3bffa;
+            border-radius: 50%;
+            margin-bottom: 30px;
+            border: 4px solid #fff;
+        }
+        .modal-content h2 {
+            margin: 0 0 20px;
+            font-size: 32px;
+            color: #333;
+        }
+        .modal-content p {
+            margin: 15px 0;
+            font-size: 20px;
+            color: #555;
+            line-height: 1.5;
+        }
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+            background: #fff;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Media Query pour mobile */
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            .header {
+                margin-bottom: 40px;
+                padding-top: 15px;
+                height: 60px;
+            }
+            .header img {
+                width: 60px;
+                margin-right: 10px;
+            }
+            .header h1 {
+                font-size: 18px;
+            }
+            .header .settings {
+                font-size: 16px;
+                margin-left: 10px;
+            }
+            .filters {
+                flex-direction: column;
+                gap: 10px;
+                padding: 0;
+                margin-top: 15px;
+            }
+            .filters select, .filters input {
+                width: 100%;
+                padding: 6px;
+                font-size: 12px;
+            }
+            .filters input {
+                max-width: 300px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            .profile-grid {
+                grid-template-columns: 1fr;
+                padding: 0 5px 20px;
+                margin-top: 15px;
+            }
+            .profile-card {
+                min-height: 180px;
+                padding: 10px;
+            }
+            .profile-card img {
+                width: 50px;
+                height: 50px;
+            }
+            .profile-card p {
+                font-size: 12px;
+            }
+            .profile-card .email {
+                font-size: 10px;
+            }
+            .modal-content {
+                width: 90%;
+                max-width: 300px;
+                padding: 20px;
+                margin: 10px auto;
+            }
+            .modal-content img {
+                width: 120px;
+                height: 120px;
+                margin-bottom: 20px;
+            }
+            .modal-content h2 {
+                font-size: 22px;
+                margin: 0 0 15px;
+            }
+            .modal-content p {
+                font-size: 16px;
+                margin: 10px 0;
+            }
+            .close {
+                top: 15px;
+                right: 15px;
+                font-size: 20px;
+                width: 25px;
+                height: 25px;
+            }
+            .not-found {
+                font-size: 18px;
+            }
+            .not-found::before {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="img/gold.image.jpg" alt="Sigma Logo">
+            <h1>Yearbook </h1>
+            <a href="settings.html"><span class="settings">⚙️</span></a>
+        </div>
+        <div class="filters">
+            <select id="yearFilter">
+                <option value="">Année du BAC</option>
+                <option value="Exemple 1">Exemple 1</option>
+                <option value="Exemple 2">Exemple 2</option>
+            </select>
+            <select id="studyFilter">
+                <option value="">Études</option>
+                <option value="Exemple Étude 1">Exemple Étude 1</option>
+                <option value="Exemple Étude 2">Exemple Étude 2</option>
+            </select>
+            <input type="text" id="searchInput" placeholder="Rechercher">
+        </div>
+        <div class="profile-grid" id="profileGrid">
+            <div class="profile-card" data-name="Jean Lefebvre" data-email="jean.lefebvre@email.com" data-date="01/04/1986" data-school="École de commerce" data-year="Exemple 1" onclick="openModal(this)">
+                <img src="https://via.placeholder.com/80" alt="Profile">
+                <div class="info">
+                    <p>Jean Lefebvre</p>
+                    <p class="email">jean.lefebvre@email.com</p>
+                    <p>01/04/1986</p>
+                    <p>École de commerce</p>
+                </div>
+            </div>
+            <div class="profile-card" data-name="Nom Exemple 2" data-email="exemple2@email.com" data-date="02/02/1987" data-school="Exemple Étude 1" data-year="Exemple 2" onclick="openModal(this)">
+                <img src="https://via.placeholder.com/80" alt="Profile">
+                <div class="info">
+                    <p>Nom Exemple 2</p>
+                    <p class="email">exemple2@email.com</p>
+                    <p>02/02/1987</p>
+                    <p>Exemple Étude 1</p>
+                </div>
+            </div>
+            <div class="profile-card" data-name="Nom Exemple 3" data-email="exemple3@email.com" data-date="03/03/1988" data-school="Exemple Étude 2" data-year="Exemple 1" onclick="openModal(this)">
+                <img src="https://via.placeholder.com/80" alt="Profile">
+                <div class="info">
+                    <p>Nom Exemple 3</p>
+                    <p class="email">exemple3@email.com</p>
+                    <p>03/03/1988</p>
+                    <p>Exemple Étude 2</p>
+                </div>
+            </div>
+            <div class="profile-card" data-name="Nom Exemple 4" data-email="exemple4@email.com" data-date="04/04/1989" data-school="Exemple Étude 1" data-year="Exemple 2" onclick="openModal(this)">
+                <img src="https://via.placeholder.com/80" alt="Profile">
+                <div class="info">
+                    <p>Nom Exemple 4</p>
+                    <p class="email">exemple4@email.com</p>
+                    <p>04/04/1989</p>
+                    <p>Exemple Étude 1</p>
+                </div>
+            </div>
+            <div class="loading" style="display: none; text-align: center;">Chargement...</div>
+        </div>
+        <div class="not-found" id="notFound">Utilisateur non trouvé</div>
+    </div>
+
+    <!-- Full-Page Modal -->
+    <div id="modal" class="modal">
+        <span class="close" onclick="closeModal()">×</span>
+        <div class="modal-content">
+            <img id="modal-img" src="https://via.placeholder.com/180" alt="Profile Detail" style="background: #a3bffa;">
+            <h2 id="modal-name"></h2>
+            <p id="modal-email"></p>
+            <p id="modal-date"></p>
+            <p id="modal-school"></p>
+        </div>
+    </div>
+
+    <script>
+        let isLoading = false;
+        let page = 1;
+
+        window.addEventListener('scroll', () => {
+            const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+            if (scrollTop + clientHeight >= scrollHeight - 50 && !isLoading) {
+                loadMoreProfiles();
+            }
+        });
+
+        function loadMoreProfiles() {
+            isLoading = true;
+            const loadingElement = document.querySelector('.loading');
+            loadingElement.style.display = 'block';
+
+            setTimeout(() => {
+                const profileGrid = document.getElementById('profileGrid');
+                for (let i = 0; i < 4; i++) {
+                    const profileCard = document.createElement('div');
+                    profileCard.className = 'profile-card';
+                    profileCard.setAttribute('data-name', `Nom Exemple ${page * 4 + i + 1}`);
+                    profileCard.setAttribute('data-email', `exemple${page * 4 + i + 1}@email.com`);
+                    profileCard.setAttribute('data-date', `${(page * 4 + i + 1).toString().padStart(2, '0')}/${(page * 4 + i + 1).toString().padStart(2, '0')}/198${page + 9}`);
+                    profileCard.setAttribute('data-school', `Exemple Étude ${i % 2 === 0 ? 1 : 2}`);
+                    profileCard.setAttribute('data-year', `Exemple ${page % 2 === 0 ? 1 : 2}`);
+                    profileCard.setAttribute('onclick', `openModal(this)`);
+                    profileCard.innerHTML = `
+                        <img src="https://via.placeholder.com/80" alt="Profile">
+                        <div class="info">
+                            <p>${`Nom Exemple ${page * 4 + i + 1}`}</p>
+                            <p class="email">${`exemple${page * 4 + i + 1}@email.com`}</p>
+                            <p>${(page * 4 + i + 1).toString().padStart(2, '0')}/${(page * 4 + i + 1).toString().padStart(2, '0')}/198${page + 9}</p>
+                            <p>${`Exemple Étude ${i % 2 === 0 ? 1 : 2}`}</p>
+                        </div>
+                    `;
+                    profileGrid.insertBefore(profileCard, loadingElement);
+                }
+                page++;
+                isLoading = false;
+                loadingElement.style.display = 'none';
+                applyFilters(); // Apply filters after loading new profiles
+            }, 1000); // Simule un délai de chargement
+        }
+
+        function openModal(element) {
+            const name = element.getAttribute('data-name');
+            const email = element.getAttribute('data-email');
+            const date = element.getAttribute('data-date');
+            const school = element.getAttribute('data-school');
+
+            document.getElementById('modal-name').textContent = name;
+            document.getElementById('modal-email').textContent = email;
+            document.getElementById('modal-date').textContent = date;
+            document.getElementById('modal-school').textContent = school;
+            document.getElementById('modal').style.display = 'flex';
+            document.querySelector('.container').style.display = 'none';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.querySelector('.container').style.display = 'block';
+        }
+
+        function applyFilters() {
+            const yearFilter = document.getElementById('yearFilter').value.toLowerCase();
+            const studyFilter = document.getElementById('studyFilter').value.toLowerCase();
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const profileCards = document.querySelectorAll('.profile-card');
+            const notFound = document.getElementById('notFound');
+            let visibleCards = 0;
+
+            profileCards.forEach(card => {
+                const year = card.getAttribute('data-year').toLowerCase();
+                const school = card.getAttribute('data-school').toLowerCase();
+                const name = card.getAttribute('data-name').toLowerCase();
+                const email = card.getAttribute('data-email').toLowerCase();
+
+                const yearMatch = !yearFilter || year === yearFilter;
+                const studyMatch = !studyFilter || school === studyFilter;
+                const searchMatch = !searchInput || name.includes(searchInput) || email.includes(searchInput);
+
+                if (yearMatch && studyMatch && searchMatch) {
+                    card.classList.remove('hidden');
+                    visibleCards++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            // Show or hide the "Utilisateur non trouvé" message
+            if (visibleCards === 0) {
+                notFound.style.display = 'block';
+            } else {
+                notFound.style.display = 'none';
+            }
+        }
+
+        // Add event listeners to filters
+        document.getElementById('yearFilter').addEventListener('change', applyFilters);
+        document.getElementById('studyFilter').addEventListener('change', applyFilters);
+        document.getElementById('searchInput').addEventListener('input', applyFilters);
+
+        // Initial filter application
+        applyFilters();
+    </script>
+</body>
+</html>

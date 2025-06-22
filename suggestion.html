@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faire une suggestion</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #fff;
+        }
+        .container {
+            text-align: center;
+        }
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #000;
+        }
+        h1 {
+            font-size: 24px;
+            color: #1a3c5e;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #1a3c5e;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background-color: #152f4a;
+        }
+    </style>
+</head>
+<body>
+    <a href="settings.html"><span class="back-arrow">←</span></a>
+    <div class="container">
+    <div class="container">
+        <h1>Faire une suggestion</h1>
+        <form>
+            <div class="form-group">
+                <label for="email">Votre adresse e-mail</label>
+                <input type="email" id="email" name="email" placeholder="Votre adresse e-mail" required>
+            </div>
+            <div class="form-group">
+                <label for="suggestion">Avez-vous des idées, remarques ou fonctionnalités à proposer ?</label>
+                <textarea id="suggestion" name="suggestion" rows="4" placeholder="Avez-vous des idées, remarques ou fonctionnalités à proposer ?" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Soumettre la suggestion</button>
+        </form>
+    </div>
+    <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const suggestion = document.getElementById('suggestion').value;
+            const now = new Date();
+            const time = now.toLocaleTimeString('en-US', { timeZone: 'GMT', hour12: true, hour: '2-digit', minute: '2-digit' });
+            const date = now.toLocaleDateString('fr-FR', { timeZone: 'GMT' });
+            alert(`Suggestion soumise :\nEmail : ${email}\nSuggestion : ${suggestion}\n(Date : ${time}, ${date})`);
+            this.reset();
+        });
+    </script>
+</body>
+</html>

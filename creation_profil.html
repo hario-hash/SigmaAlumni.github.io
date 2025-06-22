@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compléter mon profil</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f4f4f4; }
+        .container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: center; width: 400px; }
+        h1 { color: #2c3e50; margin-bottom: 20px; }
+        .form-group { margin: 15px 0; }
+        input[type="text"], input[type="email"], input[type="date"], input[type="number"] { width: 100%; padding: 12px; margin: 5px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; font-size: 14px; }
+        .photo-btn { margin: 15px 0; }
+        input[type="file"] { display: none; }
+        label { padding: 12px 20px; background-color: #ecf0f1; color: #2c3e50; border-radius: 5px; cursor: pointer; display: inline-block; }
+        label:hover { background-color: #dcdde1; }
+        button { width: 100%; padding: 12px; background-color: #2c3e50; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        button:hover { background-color: #34495e; }
+        #message { color: #e74c3c; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Compléter mon profil</h1>
+        <form id="profileForm" onsubmit="submitForm(event)">
+            <div class="form-group">
+                <input type="text" id="fullName" placeholder="Nom complet" required>
+            </div>
+            <div class="form-group">
+                <input type="email" id="email" placeholder="adresse e-mail@example.com" required>
+            </div>
+            <div class="form-group">
+                <input type="date" id="birthDate" placeholder="Date de naissance" required>
+            </div>
+            <div class="form-group">
+                <input type="number" id="bacYear" placeholder="Année du BAC" required>
+            </div>
+            <div class="form-group photo-btn">
+                <input type="file" id="profilePic" accept="image/*" onchange="previewImage(event)">
+                <label for="profilePic">Ajouter une photo</label>
+            </div>
+            <button type="submit">Créer mon profil</button>
+        </form>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        function previewImage(event) {
+            // Optional image preview logic can be added here
+        }
+
+        function submitForm(event) {
+            event.preventDefault();
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const birthDate = document.getElementById('birthDate').value;
+            const bacYear = document.getElementById('bacYear').value;
+            const profilePic = document.getElementById('profilePic').files[0];
+            const message = document.getElementById('message');
+
+            if (fullName && email && birthDate && bacYear) {
+                message.innerText = 'Profil créé avec succès!';
+                message.style.color = '#2ecc71'; // Green for success
+                // Redirect to yearbook.html after a short delay to show the success message
+                setTimeout(() => {
+                    window.location.href = "yearbook.html";
+                }, 1000); // 1-second delay
+            } else {
+                message.innerText = 'Veuillez remplir tous les champs obligatoires.';
+                message.style.color = '#e74c3c'; // Red for error
+            }
+        }
+    </script>
+</body>
+</html>

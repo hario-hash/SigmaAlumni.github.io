@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signaler un utilisateur</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #fff;
+        }
+        .container {
+            text-align: center;
+        }
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #000;
+        }
+        h1 {
+            font-size: 24px;
+            color: #1a3c5e;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #1a3c5e;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background-color: #152f4a;
+        }
+    </style>
+</head>
+<body>
+    <a href="settings.html"><span class="back-arrow">←</span></a>
+    <div class="container">
+        <h1>Signaler un utilisateur</h1>
+        <form>
+            <div class="form-group">
+                <label for="email">Votre adresse email</label>
+                <input type="email" id="email" name="email" placeholder="Votre adresse email" required>
+            </div>
+            <div class="form-group">
+                <label for="user">Nom ou e-mail de l'utilisateur à signaler</label>
+                <input type="text" id="user" name="user" placeholder="Nom ou e-mail de l'utilisateur à signaler" required>
+            </div>
+            <div class="form-group">
+                <label for="reason">Motif du signalement</label>
+                <input type="text" id="reason" name="reason" placeholder="Motif du signalement" required>
+            </div>
+            <button type="submit" class="submit-btn">Envoyer le signalement</button>
+        </form>
+    </div>
+    <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const user = document.getElementById('user').value;
+            const reason = document.getElementById('reason').value;
+            alert(`Signalement envoyé :\nEmail : ${email}\nUtilisateur : ${user}\nMotif : ${reason}\n(Date : 12:25 PM GMT, 21/06/2025)`);
+            this.reset();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code de Vérification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url(img/2023.jpg);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            background-size: cover;
+           
+        }
+        .container {
+            background: rgba(170, 167, 167, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 300px;
+            position: relative;
+        }
+        .back-arrow {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .logo {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #1e3a8a;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #874141;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            font-size: medium;
+            width: 80%;
+            padding: 0cm;
+            background-color: #1e3a8a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #163172;
+        }
+        .error {
+            color: #dc2626;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none; /* Hidden by default */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="accueil.html"><span class="back-arrow">←</span></a>
+        <img src="img/image.png" alt="Sigma Logo" class="logo">
+        <h2>Code de vérification</h2>
+        <form id="verificationForm" onsubmit="submitVerification(event)">
+            <input type="text" id="verificationCode" placeholder="Entrer le code" required>
+            <button type="submit"><h3>Continuer</h3></button>
+        </form>
+        <p id="errorMessage" class="error">Ce code ne correspond pas à celui fourni par Sigma.</p>
+    </div>
+
+    <script>
+        function submitVerification(event) {
+            event.preventDefault();
+            const verificationCode = document.getElementById('verificationCode').value;
+            const errorMessage = document.getElementById('errorMessage');
+
+            // Hardcoded correct code for testing (replace with real validation logic)
+            const correctCode = "123456";
+
+            if (verificationCode === correctCode) {
+                // Redirect to creation_profil.html if the code is correct
+                window.location.href = "creation_profil.html";
+            } else {
+                errorMessage.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>
